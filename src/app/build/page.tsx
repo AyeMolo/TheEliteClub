@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 interface ResumeResult {
   name: string;
@@ -15,6 +16,7 @@ interface ResumeResult {
 }
 
 export default function BuildResume() {
+  const { user, isLoading: authLoading } = useUser();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -81,7 +83,22 @@ export default function BuildResume() {
             &larr; Back
           </Link>
           <h1 className="text-2xl font-bold tracking-tight">TheEliteClub</h1>
-          <div className="w-12" />
+          {!authLoading && (
+            user ? (
+              <div className="flex items-center gap-2">
+                {user.picture && (
+                  <img src={user.picture} alt="" className="w-7 h-7 rounded-full" />
+                )}
+                <a href="/auth/logout" className="text-xs text-gray-400 hover:text-red-500 transition">
+                  Logout
+                </a>
+              </div>
+            ) : (
+              <a href="/auth/login" className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition">
+                Login
+              </a>
+            )
+          )}
         </div>
 
         {/* Form */}

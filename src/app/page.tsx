@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState, useRef, useCallback } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const words = ["Decoded", "Analyzed", "Unlocked", "Elevated"];
 const subtitle = "Know exactly where you stand — before you apply.";
@@ -13,6 +14,7 @@ const faqs = [
 ];
 
 export default function Landing() {
+  const { user, isLoading: authLoading } = useUser();
   const [wordIndex, setWordIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
@@ -78,6 +80,23 @@ export default function Landing() {
           <Link href="/analyze" className="text-sm font-medium text-gray-500 hover:text-indigo-600 transition">
             Analyze Resume
           </Link>
+          {!authLoading && (
+            user ? (
+              <div className="flex items-center gap-3">
+                {user.picture && (
+                  <img src={user.picture} alt="" className="w-7 h-7 rounded-full" />
+                )}
+                <span className="text-sm font-medium text-gray-700">{user.name}</span>
+                <a href="/auth/logout" className="text-xs font-medium text-gray-400 hover:text-red-500 transition">
+                  Logout
+                </a>
+              </div>
+            ) : (
+              <a href="/auth/login" className="text-sm font-medium text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                Login
+              </a>
+            )
+          )}
         </div>
       </nav>
 

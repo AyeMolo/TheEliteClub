@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 interface AnalysisResult {
   resume_score: number;
@@ -71,6 +72,7 @@ function priorityColor(p: string) {
 }
 
 export default function Analyze() {
+  const { user, isLoading: authLoading } = useUser();
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -256,7 +258,22 @@ export default function Analyze() {
             &larr; Back
           </Link>
           <h1 className="text-2xl font-bold tracking-tight">TheEliteClub</h1>
-          <div className="w-12" />
+          {!authLoading && (
+            user ? (
+              <div className="flex items-center gap-2">
+                {user.picture && (
+                  <img src={user.picture} alt="" className="w-7 h-7 rounded-full" />
+                )}
+                <a href="/auth/logout" className="text-xs text-gray-400 hover:text-red-500 transition">
+                  Logout
+                </a>
+              </div>
+            ) : (
+              <a href="/auth/login" className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition">
+                Login
+              </a>
+            )
+          )}
         </div>
 
         {/* Input Form */}
@@ -539,65 +556,82 @@ export default function Analyze() {
             {/* ===== TOOLS SECTION ===== */}
             <div className="mt-10">
               <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4">Tools</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <button
-                  className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
-                  onClick={handleCoverLetter}
-                  disabled={coverLetterLoading || !jobDescription.trim()}
-                >
-                  <p className="text-2xl mb-1">&#9993;</p>
-                  <p className="text-xs font-semibold">{coverLetterLoading ? "Writing..." : "Cover Letter"}</p>
-                  {!jobDescription.trim() && (
-                    <p className="text-[10px] text-gray-400 mt-1">Needs job description</p>
-                  )}
-                </button>
-                <button
-                  className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
-                  onClick={handleLinkedin}
-                  disabled={linkedinLoading}
-                >
-                  <p className="text-2xl mb-1">in</p>
-                  <p className="text-xs font-semibold">{linkedinLoading ? "Generating..." : "LinkedIn Copy"}</p>
-                </button>
-                <button
-                  className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
-                  onClick={handleSkillRoadmap}
-                  disabled={skillRoadmapLoading}
-                >
-                  <p className="text-2xl mb-1">&#127919;</p>
-                  <p className="text-xs font-semibold">{skillRoadmapLoading ? "Building..." : "Skill Roadmap"}</p>
-                </button>
-                <button
-                  className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
-                  onClick={() => {
-                    if (!selectedIndustry) {
-                      const el = document.getElementById("industry-select");
-                      el?.focus();
-                      return;
-                    }
-                    handleBenchmark();
-                  }}
-                  disabled={benchmarkLoading}
-                >
-                  <p className="text-2xl mb-1">&#128200;</p>
-                  <p className="text-xs font-semibold">{benchmarkLoading ? "Analyzing..." : "Benchmark"}</p>
-                </button>
-              </div>
 
-              {/* Industry selector for benchmark */}
-              <div className="mt-3">
-                <select
-                  id="industry-select"
-                  className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-600/20"
-                  value={selectedIndustry}
-                  onChange={(e) => setSelectedIndustry(e.target.value)}
-                >
-                  <option value="">Select an industry for benchmarking...</option>
-                  {industries.map((ind) => (
-                    <option key={ind} value={ind}>{ind}</option>
-                  ))}
-                </select>
-              </div>
+              {!user ? (
+                <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-8 text-center">
+                  <p className="text-3xl mb-3">&#128274;</p>
+                  <p className="text-sm font-semibold text-gray-800 mb-1">Sign in to unlock AI tools</p>
+                  <p className="text-xs text-gray-500 mb-4">Cover Letter, LinkedIn Optimizer, Skill Roadmap, and Industry Benchmark</p>
+                  <a
+                    href="/auth/login"
+                    className="inline-block bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition"
+                  >
+                    Login to Continue
+                  </a>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <button
+                      className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
+                      onClick={handleCoverLetter}
+                      disabled={coverLetterLoading || !jobDescription.trim()}
+                    >
+                      <p className="text-2xl mb-1">&#9993;</p>
+                      <p className="text-xs font-semibold">{coverLetterLoading ? "Writing..." : "Cover Letter"}</p>
+                      {!jobDescription.trim() && (
+                        <p className="text-[10px] text-gray-400 mt-1">Needs job description</p>
+                      )}
+                    </button>
+                    <button
+                      className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
+                      onClick={handleLinkedin}
+                      disabled={linkedinLoading}
+                    >
+                      <p className="text-2xl mb-1">in</p>
+                      <p className="text-xs font-semibold">{linkedinLoading ? "Generating..." : "LinkedIn Copy"}</p>
+                    </button>
+                    <button
+                      className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
+                      onClick={handleSkillRoadmap}
+                      disabled={skillRoadmapLoading}
+                    >
+                      <p className="text-2xl mb-1">&#127919;</p>
+                      <p className="text-xs font-semibold">{skillRoadmapLoading ? "Building..." : "Skill Roadmap"}</p>
+                    </button>
+                    <button
+                      className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center hover:border-indigo-300 hover:shadow-md transition-all duration-200 disabled:opacity-40"
+                      onClick={() => {
+                        if (!selectedIndustry) {
+                          const el = document.getElementById("industry-select");
+                          el?.focus();
+                          return;
+                        }
+                        handleBenchmark();
+                      }}
+                      disabled={benchmarkLoading}
+                    >
+                      <p className="text-2xl mb-1">&#128200;</p>
+                      <p className="text-xs font-semibold">{benchmarkLoading ? "Analyzing..." : "Benchmark"}</p>
+                    </button>
+                  </div>
+
+                  {/* Industry selector for benchmark */}
+                  <div className="mt-3">
+                    <select
+                      id="industry-select"
+                      className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-600/20"
+                      value={selectedIndustry}
+                      onChange={(e) => setSelectedIndustry(e.target.value)}
+                    >
+                      <option value="">Select an industry for benchmarking...</option>
+                      {industries.map((ind) => (
+                        <option key={ind} value={ind}>{ind}</option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Cover Letter Result */}
