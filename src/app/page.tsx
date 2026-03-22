@@ -304,7 +304,7 @@ export default function Landing() {
             </div>
 
             <div className="flex flex-wrap gap-2 justify-center mb-6">
-              {["React", "TypeScript", "Node.js", "Python", "SQL"].map((s) => (
+              {["Leadership", "Communication", "Excel", "Problem Solving", "Teamwork"].map((s) => (
                 <span key={s} className="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-medium">{s}</span>
               ))}
             </div>
@@ -313,11 +313,11 @@ export default function Landing() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-100">
               <div className="bg-red-50 border border-red-200 rounded-xl p-4">
                 <p className="text-xs font-bold text-red-400 uppercase tracking-widest mb-2">Before</p>
-                <p className="text-xs text-gray-500 leading-relaxed">Experienced developer with skills in multiple programming languages looking for new opportunities...</p>
+                <p className="text-xs text-gray-500 leading-relaxed">Hard-working professional with experience in many areas looking for new opportunities...</p>
               </div>
               <div className="bg-green-50 border border-green-200 rounded-xl p-4">
                 <p className="text-xs font-bold text-green-500 uppercase tracking-widest mb-2">After</p>
-                <p className="text-xs text-gray-700 leading-relaxed">Full-stack engineer with 4+ years building scalable React and Node.js applications. Shipped features used by 50k+ users at a Series B startup.</p>
+                <p className="text-xs text-gray-700 leading-relaxed">Operations manager with 4+ years driving team performance and process efficiency. Reduced costs by 18% while improving customer satisfaction scores across 3 locations.</p>
               </div>
             </div>
           </div>
@@ -344,7 +344,7 @@ export default function Landing() {
                 Paste a job description and get a tailored, professional cover letter in seconds. References your actual skills and experience.
               </p>
               <div className="bg-gray-50 rounded-xl p-4">
-                <p className="text-xs text-gray-400 italic leading-relaxed">&quot;Dear Hiring Manager, As a full-stack engineer with deep experience in React and Node.js, I was excited to see your opening for...&quot;</p>
+                <p className="text-xs text-gray-400 italic leading-relaxed">&quot;Dear Hiring Manager, With 3 years of experience in project coordination and client relations, I was excited to see your opening for...&quot;</p>
               </div>
             </div>
 
@@ -356,8 +356,8 @@ export default function Landing() {
                 Get an optimized headline and About section generated from your resume. Copy-paste ready.
               </p>
               <div className="bg-gray-50 rounded-xl p-4 space-y-2">
-                <p className="text-xs font-semibold text-gray-700">Full-Stack Engineer | React &amp; Node.js | Building Products Users Love</p>
-                <p className="text-xs text-gray-400 italic">I build scalable web apps that solve real problems...</p>
+                <p className="text-xs font-semibold text-gray-700">Marketing Coordinator | Project Management | Driving Results That Matter</p>
+                <p className="text-xs text-gray-400 italic">I help teams grow and deliver results that move the needle...</p>
               </div>
             </div>
 

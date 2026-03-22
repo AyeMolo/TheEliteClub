@@ -160,7 +160,7 @@ export default function BuildResume() {
               <label className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-1.5 block">Experience</label>
               <textarea
                 className="w-full h-32 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 transition resize-none"
-                placeholder={"e.g. Software Engineering Intern at Google, Summer 2025\n- Worked on search infrastructure\n- Built internal tooling with React"}
+                placeholder={"e.g. Marketing Intern at Deloitte, Summer 2025\n- Assisted with client presentations\n- Managed social media content calendar"}
                 value={experience}
                 onChange={(e) => setExperience(e.target.value)}
               />
@@ -170,7 +170,7 @@ export default function BuildResume() {
               <label className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-1.5 block">Skills *</label>
               <textarea
                 className="w-full h-20 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 transition resize-none"
-                placeholder="e.g. Python, React, Node.js, SQL, Git, Figma"
+                placeholder="e.g. Excel, Public Speaking, Project Management, Customer Service, Spanish"
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
               />
@@ -180,7 +180,7 @@ export default function BuildResume() {
               <label className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-1.5 block">Projects</label>
               <textarea
                 className="w-full h-28 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 transition resize-none"
-                placeholder={"e.g. TheEliteClub — AI resume analyzer built with Next.js and Gemini API\nTodo App — Full-stack task manager with React and Firebase"}
+                placeholder={"e.g. Campus Food Drive — Organized donation event serving 200+ families\nBudget Tracker — Built a spreadsheet tool to manage club finances"}
                 value={projects}
                 onChange={(e) => setProjects(e.target.value)}
               />
